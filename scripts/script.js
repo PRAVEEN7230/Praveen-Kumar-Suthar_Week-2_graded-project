@@ -16,6 +16,8 @@ function loadHomePage(){
                     </div>
                 </div>`
     questionList.innerHTML = output
+    const start = document.querySelector("#start")
+    start.addEventListener("click",fetchAndLoadQuestion)
 }
 function loadQuestion(data) {
     output = `<div class="mb-4">
@@ -36,13 +38,13 @@ let question
 let selectedAns = -1;
 const qNo = Math.floor(Math.random()*5);
 loadHomePage()
-s
-fetch(`http://localhost:3001/questions/${qNo}`).then(
+
+function fetchAndLoadQuestion() {
+    fetch(`http://localhost:3001/questions/${qNo}`).then(
     (res) => res.json().then(
         (res) => {
             question = res
             loadQuestion(res)
-
             const optionList = document.querySelectorAll(".list-group-item")
             const submit = document.querySelector("#submit")
             submit.addEventListener("click",validateAnswer)
@@ -54,8 +56,8 @@ fetch(`http://localhost:3001/questions/${qNo}`).then(
                 })
             })
         })
-).catch((err) => console.log(err))
-
+    ).catch((err) => console.log(err))
+}
 function togleSubmit(){
     if (document.querySelector("#submit").disabled)
     document.querySelector("#submit").disabled = false
